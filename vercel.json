@@ -3,12 +3,15 @@
   "outputDirectory": "dist/web",
   "framework": null,
   "rewrites": [
+    { "source": "/api/(plan|bundle|preset|catalog)", "destination": "/api/handler?action=$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "functions": {
-    "api/[action].ts": {
-      "maxDuration": 60,
-      "includeFiles": "dist/server/**"
+    "api/defaults.js": {
+      "maxDuration": 10
+    },
+    "api/handler.js": {
+      "maxDuration": 60
     }
   }
 }

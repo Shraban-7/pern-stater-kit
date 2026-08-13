@@ -20,7 +20,8 @@ export default defineConfig([
     splitting: false,
   },
   {
-    entry: { 'server/api': 'src/server/api.ts' },
+    entry: { handler: 'src/server/vercel-handler.ts' },
+    outDir: 'api',
     format: ['esm'],
     platform: 'node',
     target: 'node20',

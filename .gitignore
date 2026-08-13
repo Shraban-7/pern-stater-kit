@@ -10,3 +10,5 @@ generated-fixtures/
 .vercel/
 my-app/
 PERN_STARTER_BUILDER.md
+api/handler.js
+api/handler.js.map
