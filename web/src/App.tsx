@@ -104,24 +104,6 @@ export function App() {
             ))}
           </div>
 
-          <p className="k">ORM</p>
-          <div className="presets">
-            <button
-              type="button"
-              className={config.orm === 'prisma' ? 'active' : ''}
-              onClick={() => patch((c) => ({ ...c, orm: 'prisma' }))}
-            >
-              Prisma
-            </button>
-            <button
-              type="button"
-              className={config.orm === 'drizzle' ? 'active' : ''}
-              onClick={() => patch((c) => ({ ...c, orm: 'drizzle' }))}
-            >
-              Drizzle
-            </button>
-          </div>
-
           <p className="lede">
             {frontendLabel} · {config.orm} · {config.auth === 'none' ? 'no auth' : config.auth} ·{' '}
             {plan?.files.length ?? 0} files. The site can live on Vercel; generation never writes to
