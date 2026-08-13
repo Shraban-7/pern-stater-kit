@@ -381,6 +381,10 @@ You are working in **${config.name}**, a generated PERN (${config.language}) app
 - Do not put server lists into the frontend global store
 - Refresh tokens: HttpOnly cookies, not localStorage
 
+## Agent files
+
+Follow \`.agents/*.md\` and the skills under \`.agents/skills/\`. Do not add \`.cursor/rules/*.mdc\`.
+
 ## What not to invent
 
 Do not add Stripe, Redis, Kafka, tenants, or an admin app unless those features are selected above.

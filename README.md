@@ -105,7 +105,7 @@ pern-starter features
 2. Resolve feature dependencies and conflicts.
 3. Show an installation plan.
 4. Generate into a temporary workspace.
-5. Write backend, database, frontend, infrastructure, tests, docs, and Cursor rules.
+5. Write backend, database, frontend, infrastructure, tests, docs, and `.agents` markdown plus skills.
 6. Move the result into the destination folder.
 
 Major dependencies are never added silently. BullMQ without Redis, for example, prompts before Redis is enabled.

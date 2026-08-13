@@ -24,6 +24,9 @@ describe('generation plan', () => {
     expect(plan.files.some((file) => file.path.endsWith('auth.controller.ts'))).toBe(true);
     expect(plan.packages.some((pkg) => pkg.name === 'express')).toBe(true);
     expect(plan.packages.some((pkg) => pkg.name === '@prisma/client')).toBe(true);
+    expect(plan.files.some((file) => file.path === '.agents/architecture.md')).toBe(true);
+    expect(plan.files.some((file) => file.path === '.agents/skills/add-api-module/SKILL.md')).toBe(true);
+    expect(plan.files.some((file) => file.path.startsWith('.cursor/'))).toBe(false);
     expect(pathExists(destination)).toBe(false);
   });
 
@@ -42,6 +45,8 @@ describe('generation plan', () => {
       true,
     );
     expect(plan.dockerServices).toEqual(expect.arrayContaining(['postgres', 'redis']));
+    expect(plan.files.some((file) => file.path === '.agents/skills/add-web-feature/SKILL.md')).toBe(false);
+    expect(plan.files.some((file) => file.path === '.agents/skills/add-api-module/SKILL.md')).toBe(true);
   });
 
   it('includes payment adapters only when selected', async () => {
