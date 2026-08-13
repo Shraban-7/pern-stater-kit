@@ -1,4 +1,4 @@
-const config = {
+const starterConfig = {
   version: 1,
   name: 'my-app',
   language: 'typescript',
@@ -52,11 +52,15 @@ const config = {
   features: [],
 };
 
+export const config = {
+  maxDuration: 10,
+};
+
 export default function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
   if (req.method === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  res.status(200).json({ config });
+  res.status(200).json({ config: starterConfig });
 }

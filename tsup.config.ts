@@ -19,15 +19,4 @@ export default defineConfig([
     clean: false,
     splitting: false,
   },
-  {
-    entry: { handler: 'src/server/vercel-handler.ts' },
-    format: ['esm'],
-    platform: 'node',
-    target: 'node20',
-    dts: false,
-    sourcemap: false,
-    clean: false,
-    splitting: false,
-    shims: true,
-  },
 ]);

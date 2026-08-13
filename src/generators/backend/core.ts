@@ -156,7 +156,7 @@ function addCorePackages(ctx: GenerationContextLike): void {
 
   deps.push(
     ['tsx', '^4.19.3', true],
-    ['vitest', c.testing.unit === 'vitest' ? '^3.0.9' : '^3.0.9', true],
+    ['vitest', c.testing.unit === 'vitest' ? '^3.2.7' : '^3.2.7', true],
     ['supertest', '^7.1.0', true],
     ['@types/node', '^22.13.14', true],
     ['@types/supertest', '^6.0.3', true],

@@ -9,14 +9,14 @@ import {
 import { addWebDeps, ctxPaths, isTs, t } from '../helpers.js';
 
 const V = {
-  react: '^19.1.0',
-  reactDom: '^19.1.0',
-  vite: '^6.2.3',
-  pluginReact: '^4.3.4',
+  react: '^19.2.8',
+  reactDom: '^19.2.8',
+  vite: '^8.2.1',
+  pluginReact: '^6.0.5',
   router: '^7.4.0',
   typescript: '^7.0.2',
-  typesReact: '^19.1.8',
-  typesReactDom: '^19.1.6',
+  typesReact: '^19.2.18',
+  typesReactDom: '^19.2.4',
   typesNode: '^22.13.14',
   tailwind: '^3.4.17',
   postcss: '^8.5.3',
@@ -144,7 +144,7 @@ function registerWebPackages(ctx: GenerationContextLike): void {
   if (f.apiClient === 'axios') deps.push(['axios', V.axios]);
 
   dev.push(
-    ['vitest', '^3.0.9', true],
+    ['vitest', '^3.2.7', true],
     ['@testing-library/react', '^16.2.0', true],
     ['@testing-library/jest-dom', '^6.6.3', true],
     ['@testing-library/user-event', '^14.6.1', true],

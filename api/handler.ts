@@ -1,4 +1,4 @@
-import { handleStarterApi } from './api.js';
+import { handleStarterApi } from '../src/server/api.js';
 
 type QueryValue = string | string[] | undefined;
 
@@ -14,6 +14,10 @@ type ApiResponse = {
   setHeader: (name: string, value: string) => void;
   json: (body: unknown) => void;
   end: () => void;
+};
+
+export const config = {
+  maxDuration: 60,
 };
 
 function queryValue(value: QueryValue): string {
@@ -58,7 +62,3 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
     res.status(500).json({ ok: false, error: message });
   }
 }
-
-export const config = {
-  maxDuration: 60,
-};

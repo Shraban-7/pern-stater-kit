@@ -654,7 +654,7 @@ function writeTesting(ctx: GenerationContextLike): void {
 
   if (unit === 'vitest') {
     addApiDeps(ctx, [
-      ['vitest', '^3.0.9', true],
+      ['vitest', '^3.2.7', true],
       ['supertest', '^7.1.0', true],
     ]);
     if (isTs(config)) addApiDeps(ctx, [['@types/supertest', '^6.0.3', true]]);
@@ -772,7 +772,7 @@ describe('auth validation', () => {
 
   if (config.frontend.kind !== 'none') {
     addWebDeps(ctx, [
-      ['vitest', '^3.0.9', true],
+      ['vitest', '^3.2.7', true],
       ['@testing-library/react', '^16.2.0', true],
       ['@testing-library/jest-dom', '^6.6.3', true],
       ['@testing-library/user-event', '^14.6.1', true],

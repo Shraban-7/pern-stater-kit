@@ -1,18 +1,9 @@
 {
-  "buildCommand": "npm run build:vercel",
+  "buildCommand": "npm run build:web",
   "outputDirectory": "dist/web",
   "framework": null,
   "rewrites": [
     { "source": "/api/(plan|bundle|preset|catalog)", "destination": "/api/handler?action=$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/defaults.js": {
-      "maxDuration": 10
-    },
-    "api/handler.js": {
-      "maxDuration": 60,
-      "includeFiles": "dist/**"
-    }
-  }
+  ]
 }
