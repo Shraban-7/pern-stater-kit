@@ -11,7 +11,8 @@
       "maxDuration": 10
     },
     "api/handler.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "dist/handler.js"
     }
   }
 }

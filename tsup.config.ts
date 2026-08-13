@@ -21,7 +21,6 @@ export default defineConfig([
   },
   {
     entry: { handler: 'src/server/vercel-handler.ts' },
-    outDir: 'api',
     format: ['esm'],
     platform: 'node',
     target: 'node20',
