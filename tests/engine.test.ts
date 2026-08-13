@@ -59,6 +59,20 @@ describe('generation plan', () => {
     expect(paid.files.some((file) => file.path.toLowerCase().includes('stripe'))).toBe(true);
     expect(plain.files.some((file) => file.path.toLowerCase().includes('stripe'))).toBe(false);
   });
+
+  it('plans drizzle schema and kit config when drizzle is selected', async () => {
+    const engine = new GenerationEngine();
+    const config = createDefaultConfig('drizzle-app');
+    config.orm = 'drizzle';
+    const plan = await engine.plan(config, join(tmpdir(), 'drizzle-app'), { dryRun: true });
+    expect(plan.files.some((file) => file.path.endsWith('drizzle.config.ts'))).toBe(true);
+    expect(plan.files.some((file) => file.path.replaceAll('\\', '/').includes('db/schema.ts'))).toBe(
+      true,
+    );
+    expect(plan.files.some((file) => file.path.replaceAll('\\', '/').includes('db/seed.ts'))).toBe(true);
+    expect(plan.packages.some((pkg) => pkg.name === 'drizzle-orm')).toBe(true);
+    expect(plan.files.some((file) => file.path.includes('schema.prisma'))).toBe(false);
+  });
 });
 
 describe('context idempotency', () => {

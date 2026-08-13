@@ -78,8 +78,8 @@ export const FEATURE_CATALOG: FeatureDefinition[] = [
     description: 'Drizzle ORM.',
     conflicts: ['orm-prisma', 'orm-typeorm', 'orm-sequelize', 'orm-knex', 'orm-pg'],
     packages: [
-      { name: 'drizzle-orm', version: '^0.40.1', workspace: 'api' },
-      { name: 'drizzle-kit', version: '^0.30.5', workspace: 'api', dev: true },
+      { name: 'drizzle-orm', version: '^0.44.4', workspace: 'api' },
+      { name: 'drizzle-kit', version: '^0.31.4', workspace: 'api', dev: true },
     ],
   }),
   feature({

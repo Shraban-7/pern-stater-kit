@@ -66,8 +66,8 @@ function writeStandaloneAdmin(ctx: GenerationContextLike, kind: 'custom' | 'refi
   const ext = isTs(config) ? 'ts' : 'js';
 
   const deps: Array<[string, string, boolean?]> = [
-    ['react', '^18.3.1'],
-    ['react-dom', '^18.3.1'],
+    ['react', '^19.1.0'],
+    ['react-dom', '^19.1.0'],
     ['react-router-dom', '^7.4.0'],
     ['axios', '^1.8.4'],
   ];
@@ -77,9 +77,9 @@ function writeStandaloneAdmin(ctx: GenerationContextLike, kind: 'custom' | 'refi
   ];
   if (isTs(config)) {
     dev.push(
-      ['typescript', '^5.8.2', true],
-      ['@types/react', '^18.3.20', true],
-      ['@types/react-dom', '^18.3.5', true],
+      ['typescript', '^7.0.2', true],
+      ['@types/react', '^19.1.8', true],
+      ['@types/react-dom', '^19.1.6', true],
       ['@types/node', '^22.13.14', true],
     );
   }

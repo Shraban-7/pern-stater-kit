@@ -9,14 +9,14 @@ import {
 import { addWebDeps, ctxPaths, isTs, t } from '../helpers.js';
 
 const V = {
-  react: '^18.3.1',
-  reactDom: '^18.3.1',
+  react: '^19.1.0',
+  reactDom: '^19.1.0',
   vite: '^6.2.3',
   pluginReact: '^4.3.4',
   router: '^7.4.0',
-  typescript: '^5.8.2',
-  typesReact: '^18.3.20',
-  typesReactDom: '^18.3.5',
+  typescript: '^7.0.2',
+  typesReact: '^19.1.8',
+  typesReactDom: '^19.1.6',
   typesNode: '^22.13.14',
   tailwind: '^3.4.17',
   postcss: '^8.5.3',

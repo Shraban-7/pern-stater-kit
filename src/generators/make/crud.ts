@@ -611,6 +611,9 @@ function schemaPath(config: StarterConfig, n: ReturnType<typeof names>, moduleNa
   if (config.orm === 'prisma') {
     return `${paths.apiRoot === '.' ? 'prisma' : `${paths.apiRoot}/prisma`}/models/${n.kebab}.prisma`;
   }
+  if (config.orm === 'drizzle') {
+    return paths.apiSrc(`db/${n.kebab}.${paths.ext}`);
+  }
   return paths.apiFile('schemas', `${n.kebab}.schema`, moduleName);
 }
 

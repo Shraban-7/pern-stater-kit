@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { StarterConfig } from './types';
 
 function Field({
@@ -6,7 +7,7 @@ function Field({
   span,
 }: {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
   span?: boolean;
 }) {
   return (

@@ -89,7 +89,7 @@ function writePackageManifest(
   if (tools.has('eslint')) {
     rootPkgs.push(['eslint', '^9.23.0', true], ['@eslint/js', '^9.23.0', true], ['globals', '^16.0.0', true]);
     if (config.language === 'typescript') {
-      rootPkgs.push(['typescript-eslint', '^8.28.0', true], ['typescript', '^5.8.2', true]);
+      rootPkgs.push(['typescript-eslint', '^8.28.0', true], ['typescript', '^7.0.2', true]);
     }
     if (tools.has('prettier')) rootPkgs.push(['eslint-config-prettier', '^10.1.1', true]);
   }
@@ -123,9 +123,12 @@ function writePackageManifest(
     'db:seed': apiScript(ctx, 'db:seed'),
   };
 
-  if (config.orm === 'prisma') {
+  if (config.orm === 'prisma' || config.orm === 'drizzle') {
     scripts['db:generate'] = apiScript(ctx, 'db:generate');
     scripts['db:studio'] = apiScript(ctx, 'db:studio');
+  }
+  if (config.orm === 'drizzle') {
+    scripts['db:push'] = apiScript(ctx, 'db:push');
   }
 
   if (tools.has('husky')) {

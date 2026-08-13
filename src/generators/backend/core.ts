@@ -163,7 +163,7 @@ function addCorePackages(ctx: GenerationContextLike): void {
   );
 
   if (isTs(c)) {
-    deps.push(['typescript', '^5.8.2', true]);
+    deps.push(['typescript', '^7.0.2', true]);
     if (isExpress(c)) {
       deps.push(
         ['@types/express', '^4.17.21', true],
@@ -243,6 +243,13 @@ function writePackageJson(ctx: GenerationContextLike): void {
     scripts['db:migrate'] = 'prisma migrate dev';
     scripts['db:seed'] = isTs(c) ? 'tsx prisma/seed.ts' : 'node prisma/seed.js';
     scripts['db:studio'] = 'prisma studio';
+  }
+  if (c.orm === 'drizzle') {
+    scripts['db:generate'] = 'drizzle-kit generate';
+    scripts['db:migrate'] = 'drizzle-kit migrate';
+    scripts['db:push'] = 'drizzle-kit push';
+    scripts['db:studio'] = 'drizzle-kit studio';
+    scripts['db:seed'] = isTs(c) ? 'tsx src/db/seed.ts' : 'node src/db/seed.js';
   }
   ctx.addScript('dev', scripts.dev ?? 'tsx watch src/server.ts');
   ctx.addScript('build', scripts.build ?? 'tsc -p tsconfig.json');

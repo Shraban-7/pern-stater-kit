@@ -502,6 +502,7 @@ export default defineConfig({
 });
 `,
   );
+  if (hasAuth(c)) writeDrizzleSeed(ctx);
 }
 
 function drizzleSchema(c: StarterConfig): string {
@@ -546,6 +547,60 @@ ${c.multiTenancy !== 'none' ? '  tenantId: text(\'tenant_id\'),' : ''}
 });`);
   }
   return `${parts.join('\n\n')}\n`;
+}
+
+function writeDrizzleSeed(ctx: GenerationContextLike): void {
+  const c = ctx.config;
+  const p = ctxPaths(ctx);
+  const seedFile = p.apiSrc(`db/${fileName(c, 'seed')}`);
+  const hashCall =
+    c.passwordHash === 'bcrypt'
+      ? `await bcrypt.hash('${DEV_ADMIN_PASSWORD}', 12)`
+      : `await argon2.hash('${DEV_ADMIN_PASSWORD}', { type: argon2.argon2id })`;
+  const hashImport =
+    c.passwordHash === 'bcrypt' ? `import bcrypt from 'bcryptjs';` : `import argon2 from 'argon2';`;
+  writeSrc(
+    ctx,
+    seedFile,
+    `import { eq } from 'drizzle-orm';
+import { db, closeDb } from '${relImport(seedFile, p.apiFile('lib', 'db'))}';
+import { users } from './${fileName(c, 'schema').replace(/\.(ts|js)$/, '')}.js';
+${hashImport}
+
+const DEV_EMAIL = '${DEV_ADMIN_EMAIL}';
+
+async function main() {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Refusing to seed in production');
+  }
+  const passwordHash = ${hashCall};
+  const existing = await db.select().from(users).where(eq(users.email, DEV_EMAIL)).limit(1);
+  if (!existing[0]) {
+    await db.insert(users).values({
+      id: crypto.randomUUID(),
+      email: DEV_EMAIL,
+      name: 'Local Admin',
+      passwordHash,
+      emailVerifiedAt: new Date(),
+      failedLoginAttempts: 0,
+    });
+  }
+  console.info('Seeded development admin user', { email: DEV_EMAIL });
+}
+
+main()
+  .catch((error) => {
+    console.error(error instanceof Error ? error.message : error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await closeDb();
+  });
+`,
+  );
+  ctx.addNote(
+    `Development seed creates ${DEV_ADMIN_EMAIL} / ${DEV_ADMIN_PASSWORD}. This is a local placeholder — change it and never use it in production.`,
+  );
 }
 
 function generateTypeorm(ctx: GenerationContextLike): void {

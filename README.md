@@ -146,6 +146,6 @@ Deploy:
 npx vercel
 ```
 
-Root settings: build `npm run build:web`, output `dist/web`, API from `/api`.
+Root settings: build `npm run build:vercel`, output `dist/web`, API from `/api`.
 
 CLI remains available with `npm run dev:cli -- new my-app`.

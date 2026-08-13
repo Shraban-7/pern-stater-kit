@@ -1,28 +1,24 @@
 import { applyPreset, createDefaultConfig } from '../core/defaults.js';
 import { GenerationEngine } from '../core/engine.js';
+import { normalizeConfig } from '../core/normalize.js';
 import { parseStarterConfig } from '../core/schema.js';
 import type { PresetId, StarterConfig } from '../core/types.js';
 import { FEATURE_CATALOG } from '../features/catalog.js';
 import { ARCHITECTURE_CATALOG } from '../architectures/catalog.js';
 import { PATTERN_CATALOG } from '../patterns/catalog.js';
 
-const engine = new GenerationEngine();
+export { normalizeConfig } from '../core/normalize.js';
+
+let engine: GenerationEngine | undefined;
+
+function getEngine(): GenerationEngine {
+  engine ??= new GenerationEngine();
+  return engine;
+}
 
 export interface ApiResult {
   status: number;
   body: unknown;
-}
-
-export function normalizeConfig(input: StarterConfig): StarterConfig {
-  const next = structuredClone(input);
-  if (next.frontend.kind !== 'none') {
-    next.frontend.kind = 'vite-react';
-    next.frontend.router = true;
-  }
-  if (next.queue === 'bullmq' && next.cache !== 'redis') next.cache = 'redis';
-  if (next.frontend.kind === 'none') next.monorepo = 'none';
-  else if (next.monorepo === 'none') next.monorepo = 'turborepo';
-  return next;
 }
 
 function nextSteps(config: StarterConfig): string[] {
@@ -84,7 +80,7 @@ export async function handleStarterApi(
     if (method === 'POST' && (path === '/api/plan' || path === '/api/bundle')) {
       const payload = (body ?? {}) as { config?: unknown };
       const config = normalizeConfig(parseStarterConfig(payload.config));
-      const plan = await engine.plan(config, config.name, {
+      const plan = await getEngine().plan(config, config.name, {
         dryRun: true,
         autoAddDependencies: true,
       });

@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getJson, postJson } from './api';
+import { postJson } from './api';
+import { clientDefaultConfig, clientPresetConfig } from './config';
 import { OptionsPanel } from './OptionsPanel';
 import { saveProjectLocally, downloadZip } from './save-local';
 import { PRESETS, type Bundle, type Plan, type PresetId, type StarterConfig } from './types';
 
 export function App() {
-  const [config, setConfig] = useState<StarterConfig | null>(null);
+  const [config, setConfig] = useState<StarterConfig>(() => clientDefaultConfig('my-app'));
   const [preset, setPreset] = useState('default');
   const [plan, setPlan] = useState<Plan | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -15,16 +16,6 @@ export function App() {
   const [optionsOpen, setOptionsOpen] = useState(false);
 
   useEffect(() => {
-    void getJson<{ config: StarterConfig }>('/api/defaults')
-      .then((data) => {
-        data.config.frontend.kind = 'vite-react';
-        setConfig(data.config);
-      })
-      .catch((err: Error) => setError(err.message));
-  }, []);
-
-  useEffect(() => {
-    if (!config) return;
     const handle = window.setTimeout(() => {
       void postJson<Plan>('/api/plan', { config })
         .then((data) => {
@@ -37,23 +28,17 @@ export function App() {
   }, [config]);
 
   const patch = (update: (current: StarterConfig) => StarterConfig) => {
-    setConfig((current) => (current ? update(current) : current));
+    setConfig((current) => update(current));
     setStatus(null);
     setNextSteps([]);
   };
 
-  const applyPreset = async (id: PresetId) => {
+  const applyPreset = (id: PresetId) => {
     setPreset(id);
-    const data = await postJson<{ config: StarterConfig }>('/api/preset', {
-      name: config?.name ?? 'my-app',
-      preset: id,
-    });
-    if (data.config.frontend.kind !== 'none') data.config.frontend.kind = 'vite-react';
-    setConfig(data.config);
+    setConfig(clientPresetConfig(config.name, id));
   };
 
   const generateLocally = async (forceZip = false) => {
-    if (!config) return;
     setBusy(true);
     setError(null);
     try {
@@ -72,11 +57,8 @@ export function App() {
   };
 
   const frontendLabel = useMemo(() => {
-    if (!config) return '';
     return config.frontend.kind === 'none' ? 'API only' : 'React + Vite';
   }, [config]);
-
-  if (!config) return <div className="app">Loading…</div>;
 
   return (
     <div className="app">
@@ -105,11 +87,7 @@ export function App() {
               className={preset === 'default' ? 'active' : ''}
               onClick={() => {
                 setPreset('default');
-                void getJson<{ config: StarterConfig }>('/api/defaults').then((data) => {
-                  data.config.name = config.name;
-                  data.config.frontend.kind = 'vite-react';
-                  setConfig(data.config);
-                });
+                setConfig((current) => clientDefaultConfig(current.name));
               }}
             >
               Default
@@ -119,11 +97,29 @@ export function App() {
                 key={id}
                 type="button"
                 className={preset === id ? 'active' : ''}
-                onClick={() => void applyPreset(id)}
+                onClick={() => applyPreset(id)}
               >
                 {id}
               </button>
             ))}
+          </div>
+
+          <p className="k">ORM</p>
+          <div className="presets">
+            <button
+              type="button"
+              className={config.orm === 'prisma' ? 'active' : ''}
+              onClick={() => patch((c) => ({ ...c, orm: 'prisma' }))}
+            >
+              Prisma
+            </button>
+            <button
+              type="button"
+              className={config.orm === 'drizzle' ? 'active' : ''}
+              onClick={() => patch((c) => ({ ...c, orm: 'drizzle' }))}
+            >
+              Drizzle
+            </button>
           </div>
 
           <p className="lede">
