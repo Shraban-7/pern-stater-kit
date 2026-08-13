@@ -12,7 +12,7 @@
     },
     "api/handler.js": {
       "maxDuration": 60,
-      "includeFiles": "dist/handler.js"
+      "includeFiles": "dist/**"
     }
   }
 }
